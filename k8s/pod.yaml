@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: deploy
+    labels:
+        app: deploy
+spec:
+    containers:
+        - name: deploy
+          image: venzel/deploy:latest

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: deploy-service
+spec:
+    selector:
+        app: deploy
+    type: LoadBalancer
+    ports:
+        - name: deploy-service
+          port: 80
+          targetPort: 3000
+          protocol: TCP
