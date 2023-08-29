@@ -1,4 +1,4 @@
-# k8s
+# K8s
 
 ## Origem
 
@@ -13,17 +13,22 @@
 -   **Cluster:** é o conjunto de máquinas (nodes), cada máquina possui sua quantidade de vCPU e memória.
 -   **Pod:** unidade que contém os containers provisionados, o pod representa os processos rodando no cluster. Normalmente utiliza um container por pod.
 
+## FAQ
+
+👉 [Namespaces & Contextos](./CONTEXTS.md)<br />
+👉 [Deploy app Go](./DEPLOY.md)
+
 ## Kind
 
 Kind é um gerenciador de clusters, uma alternativa ao minikube e ao k3d.
 
 ### Instalação
 
-Documentação: https://kind.sigs.k8s.io/
+Documentação: https://kind.sigs.io/
 
 ```bash
 # Baixa o binário
-[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.io/dl/v0.20.0/kind-linux-amd64
 
 # Torna executável
 chmod +x ./kind
@@ -36,7 +41,7 @@ sudo mv ./kind /usr/local/bin/kind
 
 ```yaml
 kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
+apiVersion: kind.x-io/v1alpha4
 nodes:
     - role: control-plane
     - role: worker
@@ -48,7 +53,7 @@ nodes:
 
 ```bash
 # Cria o cluster
-kind create cluster --config=k8s/kind.yaml --name=venzel
+kind create cluster --config=kind.yaml --name=venzel
 
 # Altera o contexto
 kubectl cluster-info --context kind-venzel
@@ -65,7 +70,7 @@ kind delete clusters venzel
 Documentação: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 ```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.io/release/$(curl -L -s https://dl.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 ```
@@ -73,6 +78,9 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 ## Comandos Kubectl
 
 ```bash
+# Verifica as configurações
+cat ~/.kube/config
+
 # Verificar os clusters
 kubectl config get-clusters
 
@@ -88,6 +96,9 @@ kubectl get nodes
 # Verifica os pods
 kubectl get pods
 
+# Acessa um pod
+kubectl exec -it nome-do-pod -- bash
+
 # Exibe detalhes de um pod (deploy-kxv5k é um pod fictício)
 kubectl describe pod deploy-kxv5k
 
@@ -102,7 +113,7 @@ kubectl proxy --port=8080
 
 ```bash
 # Aplica o POD
-kubectl apply -f k8s/pod.yaml
+kubectl apply -f pod.yaml
 
 # Verifica os pods
 kubectl get pods
@@ -128,7 +139,7 @@ kubectl delete pod deploy
 
 ```bash
 # Aplica o ReplicaSet
-kubectl apply -f k8s/replicaset.yaml
+kubectl apply -f replicaset.yaml
 
 # Exibe os pods
 kubect get pods
@@ -147,7 +158,7 @@ Lembrando que quando utiliza o deployment, ele recria os pods caso tenha algo no
 
 ```bash
 # Aplica o deployment
-kubectl apply -f k8s/deployment.yaml
+kubectl apply -f deployment.yaml
 
 # Deletar um deploy
 kubectl delete deployment deploy
@@ -173,7 +184,7 @@ kubectl rollout undo deployment deploy --to-revision=2
 
 ```bash
 # Aplica o serviço
-kubectl apply -f k8s/service.yaml
+kubectl apply -f service.yaml
 #service/deploy-service created
 
 # Exibe os serviços

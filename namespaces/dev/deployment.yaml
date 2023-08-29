@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: dev-deploy
+    labels:
+        app: dev-deploy
+spec:
+    selector:
+        matchLabels:
+            app: dev-deploy
+    replicas: 3
+    template:
+        metadata:
+            name: dev-deploy
+            labels:
+                app: dev-deploy
+        spec:
+            containers:
+                - name: dev-deploy
+                  image: venzel/deploy:latest
