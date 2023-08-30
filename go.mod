@@ -1,3 +1,3 @@
-module deploy
+module server
 
 go 1.20

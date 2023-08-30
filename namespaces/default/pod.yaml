@@ -8,3 +8,12 @@ spec:
     containers:
         - name: deploy
           image: venzel/deploy:latest
+
+          resources:
+            requests:
+                cpu: '0.05'
+                memory: 20Mi
+            limits:
+                cpu: '0.05'
+                memory: 25Mi
+

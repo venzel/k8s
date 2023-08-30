@@ -99,8 +99,8 @@ kubectl get pods
 # Acessa um pod
 kubectl exec -it nome-do-pod -- bash
 
-# Exibe detalhes de um pod (deploy-kxv5k é um pod fictício)
-kubectl describe pod deploy-kxv5k
+# Exibe detalhes de um pod
+kubectl describe pod nome-do-pod
 
 # Verifica os services
 kubectl get svc
@@ -160,6 +160,9 @@ Lembrando que quando utiliza o deployment, ele recria os pods caso tenha algo no
 # Aplica o deployment
 kubectl apply -f deployment.yaml
 
+# Aplica o deployment e observa os pods
+kubectl apply -f deployment.yaml && watch -n1 kubectl get pods
+
 # Deletar um deploy
 kubectl delete deployment deploy
 # deployment.apps "deploy" deleted
@@ -203,6 +206,9 @@ kubectl port-forward svc/deploy-service 8000:80
 kubectl delete svc deploy-service
 # service "deploy-service" deleted
 ```
+
+## HPA
+
 
 <div>
   <img align="left" src="https://imgur.com/k8HFd0F.png" width=35 alt="Profile"/>

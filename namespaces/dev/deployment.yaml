@@ -1,20 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: dev-deploy
+    name: server
     labels:
-        app: dev-deploy
+        app: server
 spec:
     selector:
         matchLabels:
-            app: dev-deploy
+            app: server
     replicas: 3
     template:
         metadata:
-            name: dev-deploy
             labels:
-                app: dev-deploy
+                app: 'server'
         spec:
             containers:
-                - name: dev-deploy
-                  image: venzel/deploy:latest
+                - name: server
+                  image: 'venzel/server:v1'
+
+                  resources:
+                      requests:
+                          cpu: '0.05'
+                          memory: 20Mi
+                      limits:
+                          cpu: '0.10'
+                          memory: 25Mi
+
+                  startupProbe:
+                      httpGet:
+                          path: /healthz
+                          port: 3000
+                      periodSeconds: 4
+                      failureThreshold: 30
+
+                  readinessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: 3000
+                      periodSeconds: 3
+                      failureThreshold: 1
+
+                  livenessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: 3000
+                      periodSeconds: 5
+                      failureThreshold: 1
+                      timeoutSeconds: 1
+                      successThreshold: 1
